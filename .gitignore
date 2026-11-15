@@ -35,3 +35,7 @@ coverage/
 # Temp
 *.tmp
 *.temp
+
+# Documentation HTML files
+BugTrail_Presentation.html
+BugTrail_Project_Documentation.html
