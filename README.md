@@ -1,4 +1,4 @@
-# 🐛 BugTrail — Bug Tracking and Resolution System
+# BugTrail — Bug Tracking and Resolution System
 
 A full-stack bug tracking and project management application built with the MERN stack (MongoDB, Express.js, React, Node.js). BugTrail provides teams with a professional-grade tool for tracking, managing, and resolving software bugs through their entire lifecycle.
 
@@ -9,7 +9,7 @@ A full-stack bug tracking and project management application built with the MERN
 
 ---
 
-## ✨ Features
+## Features
 
 ### Authentication & Authorization
 - JWT-based authentication with persistent sessions
@@ -116,7 +116,7 @@ closed → reopened → in_progress          ↗
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 | Technology | Purpose |
@@ -145,7 +145,7 @@ closed → reopened → in_progress          ↗
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 bug-tracker/
@@ -231,7 +231,7 @@ bug-tracker/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - **Node.js** 18+ ([download](https://nodejs.org/))
@@ -289,106 +289,7 @@ The frontend starts at **http://localhost:5173**
 
 ---
 
-## 📡 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/auth/register` | Register new user | No |
-| POST | `/api/auth/login` | Login | No |
-| GET | `/api/auth/me` | Get current user | Yes |
-| GET | `/api/auth/users` | List all users | Yes |
-| GET | `/api/auth/users/:id` | Get user details | Admin |
-| PATCH | `/api/auth/users/:id/role` | Change user role | Admin |
-| PATCH | `/api/auth/users/:id/toggle-active` | Activate/deactivate | Admin |
-
-### Projects
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/projects` | List projects | Yes |
-| POST | `/api/projects` | Create project | Admin/Dev |
-| GET | `/api/projects/:id` | Get project details | Yes |
-| PATCH | `/api/projects/:id` | Update project | Admin/Dev |
-| POST | `/api/projects/:id/members` | Add member | Admin/Dev |
-| DELETE | `/api/projects/:id/members` | Remove member | Admin/Dev |
-
-### Bugs
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/bugs` | List bugs (filterable) | Yes |
-| POST | `/api/bugs` | Create bug | Yes |
-| GET | `/api/bugs/:id` | Get bug details + activity | Yes |
-| PATCH | `/api/bugs/:id` | Update bug | Yes |
-| DELETE | `/api/bugs/:id` | Delete bug | Admin |
-| PATCH | `/api/bugs/:id/status` | Change status | Yes |
-| PATCH | `/api/bugs/:id/assign` | Assign bug | Admin/Dev |
-| POST | `/api/bugs/:id/watch` | Toggle watch | Yes |
-| POST | `/api/bugs/:id/attachments` | Upload attachment | Yes |
-| DELETE | `/api/bugs/:id/attachments/:aid` | Remove attachment | Owner/Admin |
-| GET | `/api/bugs/my-bugs` | Bugs assigned to me | Yes |
-| GET | `/api/bugs/watched` | Bugs I'm watching | Yes |
-| GET | `/api/bugs/recently-closed` | Recently closed bugs | Yes |
-
-### Comments
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/bugs/:bugId/comments` | List comments | Yes |
-| POST | `/api/bugs/:bugId/comments` | Add comment | Yes |
-| PATCH | `/api/comments/:id` | Edit comment | Author |
-| DELETE | `/api/comments/:id` | Delete comment | Author/Admin |
-
-### Notifications
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/notifications` | List notifications | Yes |
-| GET | `/api/notifications/unread-count` | Get unread count | Yes |
-| PATCH | `/api/notifications/:id/read` | Mark as read | Yes |
-| PATCH | `/api/notifications/read-all` | Mark all as read | Yes |
-
-### Sprints
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/sprints` | List sprints | Yes |
-| POST | `/api/sprints` | Create sprint | Admin/Dev |
-| GET | `/api/sprints/:id` | Get sprint details | Yes |
-| PATCH | `/api/sprints/:id` | Update sprint | Admin/Dev |
-| DELETE | `/api/sprints/:id` | Delete sprint | Admin/Dev |
-| POST | `/api/sprints/:id/bugs` | Add bug to sprint | Admin/Dev |
-| DELETE | `/api/sprints/:id/bugs` | Remove bug from sprint | Admin/Dev |
-
-### Dashboard
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/dashboard` | Dashboard stats + charts | Yes |
-
-### Health
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| GET | `/api/health` | Health check | No |
-
----
-
-## 🔐 Environment Variables
-
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `MONGO_URI` | ✅ | — | MongoDB connection string |
-| `JWT_SECRET` | ✅ | — | Secret key for JWT signing |
-| `JWT_EXPIRES_IN` | ❌ | `7d` | JWT token expiration |
-| `PORT` | ❌ | `5000` | Backend server port |
-| `NODE_ENV` | ❌ | `development` | Environment mode |
-| `CLIENT_URL` | ❌ | `*` | Frontend URL for CORS |
-| `UPLOAD_DIR` | ❌ | `uploads` | File upload directory |
-| `MAX_FILE_SIZE` | ❌ | `5242880` | Max upload size (bytes) |
-| `SMTP_HOST` | ❌ | — | Email SMTP host |
-| `SMTP_PORT` | ❌ | — | Email SMTP port |
-| `SMTP_USER` | ❌ | — | Email SMTP username |
-| `SMTP_PASS` | ❌ | — | Email SMTP password |
-| `SMTP_FROM` | ❌ | — | Email sender address |
-
----
-
-## 🚢 Deployment
+## Deployment
 
 ### Backend (Render / Railway)
 1. Set environment variables in the hosting dashboard
@@ -409,7 +310,7 @@ The frontend starts at **http://localhost:5173**
 
 ---
 
-## 👥 Team
+## Team
 
 | Member | Contributions |
 |--------|--------------|
@@ -420,6 +321,6 @@ The frontend starts at **http://localhost:5173**
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
