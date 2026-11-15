@@ -417,7 +417,6 @@ The frontend starts at **http://localhost:5173**
 | **Meghana** | Frontend/UI design — component design, Tailwind theming, responsive layout |
 | **Harika** | Testing & documentation — test planning, QA, README, project documentation |
 | **Gungun** | Feature development — notifications, sprint management, workspace views |
-| **Tammineni** | Feature development — dashboard analytics, Kanban board, file attachments |
 
 ---
 
