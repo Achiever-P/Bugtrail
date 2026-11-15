@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BugTrail — Project Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --primary: #4c8dff;
+      --primary-dark: #3a6fd8;
+      --bg: #ffffff;
+      --text: #1a1e2e;
+      --text-secondary: #4a5068;
+      --text-muted: #8b93a7;
+      --border: #e2e5ed;
+      --surface: #f6f7fb;
+      --accent-green: #3ecf8e;
+      --accent-red: #f0475a;
+      --accent-yellow: #f0a02b;
+      --accent-purple: #c77dff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      font-size: 14px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    @page {
+      size: A4;
+      margin: 20mm 18mm 22mm 18mm;
+    }
+
+    /* ─── COVER PAGE ─── */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a2332 100%);
+      color: white;
+      padding: 60px 40px;
+      page-break-after: always;
+    }
+
+    .cover-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--primary);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 32px;
+      box-shadow: 0 8px 32px rgba(76, 141, 255, 0.35);
+    }
+
+    .cover h1 {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .cover .subtitle {
+      font-size: 20px;
+      font-weight: 400;
+      color: #8b93a7;
+      margin-bottom: 48px;
+    }
+
+    .cover .meta-box {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 28px 48px;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .cover .meta-box .row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .cover .meta-box .label {
+      color: #8b93a7;
+      width: 120px;
+    }
+
+    .cover .meta-box .value {
+      color: #e7e9ee;
+      font-weight: 500;
+    }
+
+    /* ─── CONTENT ─── */
+    .content {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ─── TABLE OF CONTENTS ─── */
+    .toc {
+      page-break-after: always;
+    }
+
+    .toc h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .toc-list {
+      list-style: none;
+    }
+
+    .toc-list li {
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toc-list li a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .toc-list li a:hover {
+      color: var(--primary);
+    }
+
+    .toc-list .chapter {
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .toc-sub {
+      list-style: none;
+      padding-left: 24px;
+    }
+
+    .toc-sub li {
+      border-bottom: 1px dotted #eee;
+      font-size: 13px;
+    }
+
+    /* ─── HEADINGS ─── */
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 48px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary);
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 32px 0 12px;
+      page-break-after: avoid;
+    }
+
+    h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin: 20px 0 8px;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 8px 0 12px;
+      color: var(--text-secondary);
+    }
+
+    /* ─── CODE ─── */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 18px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 14px 0 20px;
+      border: 1px solid #21262d;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .kw {
+      color: #ff7b72;
+    }
+
+    .str {
+      color: #a5d6ff;
+    }
+
+    .comment {
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    .fn {
+      color: #d2a8ff;
+    }
+
+    .num {
+      color: #79c0ff;
+    }
+
+    /* ─── TABLES ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--surface);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafbfc;
+    }
+
+    /* ─── INFO BOXES ─── */
+    .info-box {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 16px 0;
+      border-left: 4px solid;
+      font-size: 13px;
+    }
+
+    .info-box.note {
+      background: #f0f7ff;
+      border-left-color: var(--primary);
+      color: #1a3a6c;
+    }
+
+    .info-box.warn {
+      background: #fff8f0;
+      border-left-color: var(--accent-yellow);
+      color: #6b4a1a;
+    }
+
+    .info-box.success {
+      background: #f0faf5;
+      border-left-color: var(--accent-green);
+      color: #1a5c3a;
+    }
+
+    .info-box.danger {
+      background: #fef2f2;
+      border-left-color: var(--accent-red);
+      color: #6b1a1a;
+    }
+
+    .info-box strong {
+      font-weight: 600;
+    }
+
+    /* ─── DIAGRAM BOXES ─── */
+    .flow-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin: 20px 0;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+
+    .flow-box {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      color: white;
+      display: inline-block;
+    }
+
+    .flow-arrow {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .fb-open {
+      background: var(--accent-red);
+    }
+
+    .fb-progress {
+      background: var(--accent-yellow);
+    }
+
+    .fb-review {
+      background: var(--primary);
+    }
+
+    .fb-resolved {
+      background: var(--accent-green);
+    }
+
+    .fb-closed {
+      background: #6b7385;
+    }
+
+    .fb-reopened {
+      background: var(--accent-purple);
+    }
+
+    /* ─── BADGE SAMPLES ─── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 2px;
+    }
+
+    /* ─── LISTS ─── */
+    ul,
+    ol {
+      margin: 8px 0 16px 24px;
+      color: var(--text-secondary);
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    li strong {
+      color: var(--text);
+    }
+
+    /* ─── FEATURE GRID ─── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .feature-card h4 {
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .feature-card .icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    /* ─── FOLDER TREE ─── */
+    .tree {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin: 14px 0;
+      border: 1px solid #21262d;
+    }
+
+    .tree .folder {
+      color: #79c0ff;
+      font-weight: 600;
+    }
+
+    .tree .file {
+      color: #c9d1d9;
+    }
+
+    .tree .desc {
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    /* ─── SECTION DIVIDER ─── */
+    .divider {
+      border: none;
+      border-top: 2px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      .cover {
+        min-height: auto;
+        height: 100vh;
+      }
+
+      .content {
+        padding: 0;
+      }
+
+      h2 {
+        page-break-before: always;
+      }
+
+      h2:first-of-type {
+        page-break-before: avoid;
+      }
+
+      .no-break {
+        page-break-inside: avoid;
+      }
+
+      pre,
+      table,
+      .flow-diagram,
+      .tree,
+      .feature-grid {
+        page-break-inside: avoid;
+      }
+    }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      margin-top: 60px;
+      padding: 24px 0;
+      border-top: 2px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════ COVER PAGE ═══════════════════════ -->
+  <div class="cover">
+    <div class="cover-logo">🐛</div>
+    <h1>BugTrail</h1>
+    <div class="subtitle">Bug Tracking &amp; Resolution System — Complete Project Documentation</div>
+    <div class="meta-box">
+      <div class="row"><span class="label">Technology</span><span class="value">MERN Stack (MongoDB, Express.js, React
+          18, Node.js)</span></div>
+      <div class="row"><span class="label">Version</span><span class="value">1.0.0</span></div>
+      <div class="row"><span class="label">Frontend</span><span class="value">React 18 + Vite + Tailwind CSS</span>
+      </div>
+      <div class="row"><span class="label">Backend</span><span class="value">Express.js + Mongoose + JWT Auth</span>
+      </div>
+      <div class="row"><span class="label">Database</span><span class="value">MongoDB (Atlas / Local)</span></div>
+      <div class="row"><span class="label">Date</span><span class="value">November 2026</span></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════════════════ TABLE OF CONTENTS ═══════════════════════ -->
+    <div class="toc">
+      <h2>Table of Contents</h2>
+      <ol class="toc-list">
+        <li><a href="#s1">1. Introduction &amp; Project Overview</a></li>
+        <li><a href="#s2">2. Technology Stack</a></li>
+        <li><a href="#s3">3. System Architecture</a></li>
+        <li><a href="#s4">4. Project Folder Structure</a></li>
+        <li><a href="#s5">5. Database Design (MongoDB Models)</a></li>
+        <li><a href="#s6">6. Authentication &amp; Authorization</a></li>
+        <li><a href="#s7">7. API Endpoints Reference</a></li>
+        <li><a href="#s8">8. Bug Lifecycle &amp; State Machine</a></li>
+        <li><a href="#s9">9. Frontend Pages &amp; Components</a></li>
+        <li><a href="#s10">10. Dashboard &amp; Analytics</a></li>
+        <li><a href="#s11">11. Kanban Board</a></li>
+        <li><a href="#s12">12. File Attachments</a></li>
+        <li><a href="#s13">13. Notification System</a></li>
+        <li><a href="#s14">14. Sprint Management</a></li>
+        <li><a href="#s15">15. Activity Log &amp; Audit Trail</a></li>
+        <li><a href="#s16">16. Security Measures</a></li>
+        <li><a href="#s17">17. Setup &amp; Installation Guide</a></li>
+        <li><a href="#s18">18. Environment Variables</a></li>
+        <li><a href="#s19">19. Data Flow Diagrams</a></li>
+        <li><a href="#s20">20. Team Contributions</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════ 1. INTRODUCTION ═══════════════════════ -->
+    <h2 id="s1">1. Introduction &amp; Project Overview</h2>
+
+    <p><strong>BugTrail</strong> is a full-stack, production-ready bug tracking and resolution system built with the
+      MERN stack. It enables software development teams to report, track, assign, and resolve bugs through a structured
+      workflow with complete audit trails, real-time notifications, and a visual Kanban board.</p>
+
+    <h3>1.1 Problem Statement</h3>
+    <p>Software development teams require a centralized system to efficiently track, prioritize, and manage software
+      defects throughout the development lifecycle. Manual tracking through spreadsheets or email leads to lost bugs,
+      unclear ownership, and lack of accountability. BugTrail addresses this by providing a modern, role-based bug
+      management platform.</p>
+
+    <h3>1.2 Key Features</h3>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🔐</div>
+        <h4>Role-Based Access Control</h4>
+        <p>Four distinct roles (Admin, Developer, Tester, Reporter) with granular server-enforced permissions on every
+          API endpoint.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🐛</div>
+        <h4>Complete Bug Lifecycle</h4>
+        <p>State machine-driven workflow with 6 statuses, validated transitions, and automatic audit logging at every
+          step.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📋</div>
+        <h4>Kanban Board</h4>
+        <p>Visual drag-and-drop board with real-time status updates, transition validation, and assignee filtering.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔔</div>
+        <h4>In-App Notifications</h4>
+        <p>Automatic notifications for assignments, status changes, comments, and due dates — persisted in MongoDB.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h4>Dashboard &amp; Analytics</h4>
+        <p>8 stat cards and 6 interactive Recharts visualizations covering status, priority, severity, and trends.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📎</div>
+        <h4>File Attachments</h4>
+        <p>Upload screenshots, documents, and reproduction files with Multer. Type/size validation and secure access
+          control.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🏃</div>
+        <h4>Sprint Management</h4>
+        <p>Create sprints with date ranges, assign bugs, track progress, and manage sprint lifecycle (planning → active
+          → completed).</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <h4>Comments &amp; Collaboration</h4>
+        <p>Add, edit, and delete comments on bugs. Chronological display with author info and role badges.</p>
+      </div>
+    </div>
+
+    <h3>1.3 Objectives</h3>
+    <ul>
+      <li>Provide a centralized platform for bug reporting, tracking, and resolution</li>
+      <li>Implement role-based access control with server-side enforcement</li>
+      <li>Enable visual workflow management through a Kanban board</li>
+      <li>Maintain a complete audit trail of all bug-related actions</li>
+      <li>Deliver a responsive, professional dark-themed UI</li>
+      <li>Ensure data integrity with backend validation and atomic operations</li>
+    </ul>
+
+    <!-- ═══════════════════════ 2. TECHNOLOGY STACK ═══════════════════════ -->
+    <h2 id="s2">2. Technology Stack</h2>
+
+    <h3>2.1 Frontend</h3>
+    <table>
+      <tr>
+        <th>Technology</th>
+        <th>Version</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><strong>React</strong></td>
+        <td>18.3.1</td>
+        <td>UI component library — declarative, component-based</td>
+      </tr>
+      <tr>
+        <td><strong>Vite</strong></td>
+        <td>5.3.1</td>
+        <td>Build tool — fast HMR, optimized production builds</td>
+      </tr>
+      <tr>
+        <td><strong>Tailwind CSS</strong></td>
+        <td>3.4.4</td>
+        <td>Utility-first CSS framework for rapid UI development</td>
+      </tr>
+      <tr>
+        <td><strong>React Router</strong></td>
+        <td>6.24.0</td>
+        <td>Client-side routing with protected route wrappers</td>
+      </tr>
+      <tr>
+        <td><strong>Axios</strong></td>
+        <td>1.7.2</td>
+        <td>HTTP client with interceptors for JWT token injection</td>
+      </tr>
+      <tr>
+        <td><strong>Recharts</strong></td>
+        <td>2.12.7</td>
+        <td>Charting library for Pie, Bar, Line charts</td>
+      </tr>
+      <tr>
+        <td><strong>Lucide React</strong></td>
+        <td>0.400.0</td>
+        <td>Modern icon library</td>
+      </tr>
+      <tr>
+        <td><strong>date-fns</strong></td>
+        <td>3.6.0</td>
+        <td>Date formatting (relative timestamps)</td>
+      </tr>
+    </table>
+
+    <h3>2.2 Backend</h3>
+    <table>
+      <tr>
+        <th>Technology</th>
+        <th>Version</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><strong>Node.js</strong></td>
+        <td>18+</td>
+        <td>JavaScript runtime for server-side execution</td>
+      </tr>
+      <tr>
+        <td><strong>Express.js</strong></td>
+        <td>4.19.2</td>
+        <td>Web framework — routing, middleware, error handling</td>
+      </tr>
+      <tr>
+        <td><strong>MongoDB</strong></td>
+        <td>7.x</td>
+        <td>NoSQL document database</td>
+      </tr>
+      <tr>
+        <td><strong>Mongoose</strong></td>
+        <td>8.4.4</td>
+        <td>ODM for MongoDB — schemas, validation, hooks</td>
+      </tr>
+      <tr>
+        <td><strong>JWT (jsonwebtoken)</strong></td>
+        <td>9.0.2</td>
+        <td>Stateless authentication tokens</td>
+      </tr>
+      <tr>
+        <td><strong>bcryptjs</strong></td>
+        <td>2.4.3</td>
+        <td>Password hashing (10 salt rounds)</td>
+      </tr>
+      <tr>
+        <td><strong>Multer</strong></td>
+        <td>1.4.5</td>
+        <td>Multipart file upload handling</td>
+      </tr>
+      <tr>
+        <td><strong>Helmet</strong></td>
+        <td>7.x</td>
+        <td>HTTP security headers</td>
+      </tr>
+      <tr>
+        <td><strong>express-rate-limit</strong></td>
+        <td>7.x</td>
+        <td>Rate limiting for auth endpoints</td>
+      </tr>
+      <tr>
+        <td><strong>CORS</strong></td>
+        <td>2.8.5</td>
+        <td>Cross-origin resource sharing</td>
+      </tr>
+    </table>
+
+    <h3>2.3 Architecture Pattern</h3>
+    <div class="info-box note">
+      <strong>MVC Pattern:</strong> The backend follows the Model-View-Controller pattern. <strong>Models</strong>
+      (Mongoose schemas) define data structure, <strong>Controllers</strong> handle business logic, and
+      <strong>Routes</strong> map HTTP endpoints. The React frontend acts as the View layer, communicating via RESTful
+      API calls.
+    </div>
+
+    <!-- ═══════════════════════ 3. SYSTEM ARCHITECTURE ═══════════════════════ -->
+    <h2 id="s3">3. System Architecture</h2>
+
+    <h3>3.1 High-Level Architecture</h3>
+    <div class="flow-diagram">
+      <div style="margin-bottom: 16px; font-weight: 700; font-size: 14px; color: var(--text);">Three-Tier Architecture
+      </div>
+      <div class="flow-row">
+        <div class="flow-box" style="background: var(--primary); padding: 14px 30px;">
+          <div style="font-size: 16px; margin-bottom: 4px;">🖥️ Frontend</div>
+          <div style="font-weight: 400; font-size: 10px;">React 18 + Vite<br>Port 5173</div>
+        </div>
+        <span class="flow-arrow">⟷</span>
+        <div class="flow-box" style="background: var(--accent-green); padding: 14px 30px;">
+          <div style="font-size: 16px; margin-bottom: 4px;">⚙️ Backend</div>
+          <div style="font-weight: 400; font-size: 10px;">Express.js REST API<br>Port 5000</div>
+        </div>
+        <span class="flow-arrow">⟷</span>
+        <div class="flow-box" style="background: var(--accent-yellow); padding: 14px 30px; color: #1a1e2e;">
+          <div style="font-size: 16px; margin-bottom: 4px;">🗄️ Database</div>
+          <div style="font-weight: 400; font-size: 10px;">MongoDB<br>Port 27017</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>3.2 Request-Response Flow</h3>
+    <div class="flow-diagram" style="text-align: left; font-size: 13px;">
+      <div style="margin-bottom: 12px; font-weight: 600; color: var(--text);">How a typical API request flows through
+        the system:</div>
+      <ol style="margin-left: 20px; line-height: 2.2;">
+        <li><strong>User Action</strong> → React component triggers an event (button click, form submit)</li>
+        <li><strong>Axios Call</strong> → <code>api.get/post/patch/delete()</code> sends HTTP request to
+          <code>/api/*</code></li>
+        <li><strong>Axios Interceptor</strong> → Automatically attaches JWT token from <code>localStorage</code> as
+          <code>Authorization: Bearer &lt;token&gt;</code></li>
+        <li><strong>Vite Proxy</strong> → Forwards <code>/api/*</code> requests to <code>http://localhost:5000</code>
+        </li>
+        <li><strong>Express Middleware Chain:</strong>
+          <ul>
+            <li><code>helmet()</code> → Sets security headers</li>
+            <li><code>cors()</code> → Validates origin</li>
+            <li><code>express.json()</code> → Parses JSON body</li>
+            <li><code>rateLimit()</code> → Throttles auth endpoints (20 req / 15 min)</li>
+            <li><code>protect</code> → Verifies JWT, loads User from DB, attaches to <code>req.user</code></li>
+            <li><code>authorize()</code> → Checks role-based permissions</li>
+          </ul>
+        </li>
+        <li><strong>Controller</strong> → Executes business logic, queries MongoDB via Mongoose</li>
+        <li><strong>Response</strong> → JSON response sent back to React</li>
+        <li><strong>React State</strong> → Component updates UI with new data</li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════ 4. FOLDER STRUCTURE ═══════════════════════ -->
+    <h2 id="s4">4. Project Folder Structure</h2>
+
+    <div class="tree">
+      <span class="folder">bug-tracker/</span>
+      ├── <span class="folder">backend/</span>
+      │ ├── <span class="folder">config/</span>
+      │ │ └── <span class="file">db.js</span> <span class="desc"># MongoDB connection using mongoose.connect()</span>
+      │ ├── <span class="folder">controllers/</span>
+      │ │ ├── <span class="file">authController.js</span> <span class="desc"># Register, login, user management (7
+        exports)</span>
+      │ │ ├── <span class="file">bugController.js</span> <span class="desc"># CRUD, status, assign, watch, attachments
+        (13 exports)</span>
+      │ │ ├── <span class="file">commentController.js</span> <span class="desc"># Add, list, edit, delete
+        comments</span>
+      │ │ ├── <span class="file">dashboardController.js</span> <span class="desc"># Aggregation pipeline
+        statistics</span>
+      │ │ ├── <span class="file">notificationController.js</span> <span class="desc"># Read, mark read, unread
+        count</span>
+      │ │ └── <span class="file">sprintController.js</span> <span class="desc"># Sprint CRUD, add/remove bugs</span>
+      │ ├── <span class="folder">middleware/</span>
+      │ │ ├── <span class="file">auth.js</span> <span class="desc"># protect (JWT verify) + authorize (role
+        check)</span>
+      │ │ ├── <span class="file">error.js</span> <span class="desc"># 404 handler + global error handler</span>
+      │ │ └── <span class="file">upload.js</span> <span class="desc"># Multer config with file type/size
+        validation</span>
+      │ ├── <span class="folder">models/</span>
+      │ │ ├── <span class="file">User.js</span> <span class="desc"># User schema with bcrypt hooks</span>
+      │ │ ├── <span class="file">Project.js</span> <span class="desc"># Project with members, bugSequence</span>
+      │ │ ├── <span class="file">Bug.js</span> <span class="desc"># Bug with attachments, watchers, sprint</span>
+      │ │ ├── <span class="file">Comment.js</span> <span class="desc"># Bug comments</span>
+      │ │ ├── <span class="file">ActivityLog.js</span> <span class="desc"># Audit trail entries</span>
+      │ │ ├── <span class="file">Notification.js</span> <span class="desc"># In-app notifications</span>
+      │ │ └── <span class="file">Sprint.js</span> <span class="desc"># Sprint/iteration tracking</span>
+      │ ├── <span class="folder">routes/</span>
+      │ │ ├── <span class="file">authRoutes.js</span> <span class="desc"># /api/auth/*</span>
+      │ │ ├── <span class="file">bugRoutes.js</span> <span class="desc"># /api/bugs/*</span>
+      │ │ ├── <span class="file">projectRoutes.js</span> <span class="desc"># /api/projects/*</span>
+      │ │ ├── <span class="file">commentRoutes.js</span> <span class="desc"># /api/comments/*</span>
+      │ │ ├── <span class="file">dashboardRoutes.js</span> <span class="desc"># /api/dashboard</span>
+      │ │ ├── <span class="file">notificationRoutes.js</span> <span class="desc"># /api/notifications/*</span>
+      │ │ └── <span class="file">sprintRoutes.js</span> <span class="desc"># /api/sprints/*</span>
+      │ ├── <span class="folder">uploads/</span> <span class="desc"># File upload storage directory</span>
+      │ ├── <span class="file">server.js</span> <span class="desc"># Express app entry point</span>
+      │ ├── <span class="file">seed.js</span> <span class="desc"># Database seeder with sample data</span>
+      │ ├── <span class="file">.env.example</span> <span class="desc"># Environment variable template</span>
+      │ └── <span class="file">package.json</span>
+      ├── <span class="folder">frontend/</span>
+      │ ├── <span class="folder">src/</span>
+      │ │ ├── <span class="folder">api/</span>
+      │ │ │ └── <span class="file">axios.js</span> <span class="desc"># Axios instance with interceptors</span>
+      │ │ ├── <span class="folder">components/</span>
+      │ │ │ ├── <span class="file">Sidebar.jsx</span> <span class="desc"># Navigation sidebar with project list</span>
+      │ │ │ ├── <span class="file">NotificationBell.jsx</span> <span class="desc"># Notification dropdown (React
+        Portal)</span>
+      │ │ │ ├── <span class="file">StatusBadge.jsx</span> <span class="desc"># Status pill component</span>
+      │ │ │ ├── <span class="file">Badges.jsx</span> <span class="desc"># PriorityBadge, SeverityTag, LabelTag</span>
+      │ │ │ ├── <span class="file">Common.jsx</span> <span class="desc"># StatCard, PrivateRoute</span>
+      │ │ │ ├── <span class="file">ConfirmDialog.jsx</span> <span class="desc"># Reusable confirmation modal</span>
+      │ │ │ ├── <span class="file">CreateBugModal.jsx</span> <span class="desc"># Bug creation form modal</span>
+      │ │ │ ├── <span class="file">Spinner.jsx</span> <span class="desc"># Loading spinner</span>
+      │ │ │ └── <span class="file">EmptyState.jsx</span> <span class="desc"># Empty state placeholder</span>
+      │ │ ├── <span class="folder">context/</span>
+      │ │ │ ├── <span class="file">AuthContext.jsx</span> <span class="desc"># Authentication state management</span>
+      │ │ │ └── <span class="file">ToastContext.jsx</span> <span class="desc"># Toast notification system</span>
+      │ │ ├── <span class="folder">pages/</span>
+      │ │ │ ├── <span class="file">Login.jsx</span> <span class="desc"># Login page</span>
+      │ │ │ ├── <span class="file">Register.jsx</span> <span class="desc"># Registration page</span>
+      │ │ │ ├── <span class="file">Dashboard.jsx</span> <span class="desc"># Analytics dashboard with 6 charts</span>
+      │ │ │ ├── <span class="file">Projects.jsx</span> <span class="desc"># Project listing</span>
+      │ │ │ ├── <span class="file">ProjectDetail.jsx</span> <span class="desc"># Project details + member
+        management</span>
+      │ │ │ ├── <span class="file">BugList.jsx</span> <span class="desc"># Filtered bug listing with pagination</span>
+      │ │ │ ├── <span class="file">BugDetail.jsx</span> <span class="desc"># Bug detail with edit, comments,
+        attachments</span>
+      │ │ │ ├── <span class="file">KanbanBoard.jsx</span> <span class="desc"># Drag-and-drop Kanban board</span>
+      │ │ │ ├── <span class="file">UserManagement.jsx</span> <span class="desc"># Admin user management</span>
+      │ │ │ ├── <span class="file">SprintManagement.jsx</span> <span class="desc"># Sprint CRUD and bug
+        assignment</span>
+      │ │ │ ├── <span class="file">WorkspaceAssigned.jsx</span> <span class="desc"># Bugs assigned to current
+        user</span>
+      │ │ │ ├── <span class="file">WorkspaceWatching.jsx</span> <span class="desc"># Bugs user is watching</span>
+      │ │ │ └── <span class="file">WorkspaceRecentlyClosed.jsx</span> <span class="desc"># Recently closed bugs</span>
+      │ │ ├── <span class="file">App.jsx</span> <span class="desc"># Route definitions</span>
+      │ │ ├── <span class="file">main.jsx</span> <span class="desc"># React entry point with providers</span>
+      │ │ └── <span class="file">index.css</span> <span class="desc"># Tailwind + custom theme + animations</span>
+      │ ├── <span class="file">vite.config.js</span> <span class="desc"># Vite config with API proxy</span>
+      │ ├── <span class="file">tailwind.config.js</span> <span class="desc"># Custom dark theme configuration</span>
+      │ └── <span class="file">package.json</span>
+      ├── <span class="file">README.md</span>
+      ├── <span class="file">.gitignore</span>
+      └── <span class="file">setup.bat</span> <span class="desc"># Automated setup script for Windows</span>
+    </div>
+
+    <!-- ═══════════════════════ 5. DATABASE DESIGN ═══════════════════════ -->
+    <h2 id="s5">5. Database Design (MongoDB Models)</h2>
+
+    <h3>5.1 Entity Relationship Overview</h3>
+    <div class="flow-diagram" style="text-align: left;">
+      <strong>Collections &amp; Relationships:</strong><br><br>
+      <code>User</code> ←(1:N)→ <code>Project</code> (as lead/member)<br>
+      <code>User</code> ←(1:N)→ <code>Bug</code> (as reporter/assignee/watcher)<br>
+      <code>Project</code> ←(1:N)→ <code>Bug</code><br>
+      <code>Bug</code> ←(1:N)→ <code>Comment</code><br>
+      <code>Bug</code> ←(1:N)→ <code>ActivityLog</code><br>
+      <code>Bug</code> ←(N:1)→ <code>Sprint</code><br>
+      <code>User</code> ←(1:N)→ <code>Notification</code> (as recipient)<br>
+      <code>Sprint</code> ←(N:1)→ <code>Project</code>
+    </div>
+
+    <h3>5.2 User Model</h3>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Constraints</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td>String</td>
+        <td>Required, trimmed</td>
+        <td>Full name</td>
+      </tr>
+      <tr>
+        <td><code>email</code></td>
+        <td>String</td>
+        <td>Required, unique, lowercase</td>
+        <td>Login email</td>
+      </tr>
+      <tr>
+        <td><code>password</code></td>
+        <td>String</td>
+        <td>Required, min 6 chars, <code>select: false</code></td>
+        <td>Bcrypt hashed (10 rounds)</td>
+      </tr>
+      <tr>
+        <td><code>role</code></td>
+        <td>String</td>
+        <td>Enum: admin, developer, tester, reporter</td>
+        <td>Default: reporter</td>
+      </tr>
+      <tr>
+        <td><code>avatarInitials</code></td>
+        <td>String</td>
+        <td>Auto-generated on save</td>
+        <td>Two-letter initials from name</td>
+      </tr>
+      <tr>
+        <td><code>isActive</code></td>
+        <td>Boolean</td>
+        <td>Default: true</td>
+        <td>Account activation status</td>
+      </tr>
+    </table>
+    <div class="info-box note">
+      <strong>Pre-save Hooks:</strong> Two Mongoose pre-save hooks run automatically: (1) hash password if modified, (2)
+      generate <code>avatarInitials</code> from name. The <code>toSafeObject()</code> method strips the password before
+      sending to clients.
+    </div>
+
+    <h3>5.3 Project Model</h3>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Constraints</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td>String</td>
+        <td>Required</td>
+        <td>Project name</td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td>String</td>
+        <td>Required, unique, uppercase</td>
+        <td>Short key (e.g., "BUG", "APP") for bug IDs</td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td>String</td>
+        <td>Optional</td>
+        <td>Project description</td>
+      </tr>
+      <tr>
+        <td><code>lead</code></td>
+        <td>ObjectId → User</td>
+        <td>Required</td>
+        <td>Project lead reference</td>
+      </tr>
+      <tr>
+        <td><code>members</code></td>
+        <td>[ObjectId → User]</td>
+        <td>Array</td>
+        <td>Project team members</td>
+      </tr>
+      <tr>
+        <td><code>isArchived</code></td>
+        <td>Boolean</td>
+        <td>Default: false</td>
+        <td>Archive status</td>
+      </tr>
+      <tr>
+        <td><code>bugSequence</code></td>
+        <td>Number</td>
+        <td>Default: 0</td>
+        <td>Atomic counter for bug ID generation</td>
+      </tr>
+    </table>
+    <div class="info-box success">
+      <strong>Atomic Bug IDs:</strong> When a bug is created, <code>bugSequence</code> is incremented using
+      <code>findByIdAndUpdate($inc: { bugSequence: 1 })</code>. This ensures unique, sequential bug IDs (e.g., APP-1,
+      APP-2) even under concurrent requests — no race conditions.
+    </div>
+
+    <h3>5.4 Bug Model</h3>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>bugId</code></td>
+        <td>String (unique)</td>
+        <td>Human-readable ID, e.g., "BUG-14"</td>
+      </tr>
+      <tr>
+        <td><code>title</code></td>
+        <td>String (required)</td>
+        <td>Bug title</td>
+      </tr>
+      <tr>
+        <td><code>description</code></td>
+        <td>String</td>
+        <td>Detailed description</td>
+      </tr>
+      <tr>
+        <td><code>stepsToReproduce</code></td>
+        <td>String</td>
+        <td>Reproduction steps</td>
+      </tr>
+      <tr>
+        <td><code>expectedResult</code></td>
+        <td>String</td>
+        <td>What should happen</td>
+      </tr>
+      <tr>
+        <td><code>actualResult</code></td>
+        <td>String</td>
+        <td>What actually happened</td>
+      </tr>
+      <tr>
+        <td><code>project</code></td>
+        <td>ObjectId → Project</td>
+        <td>Parent project</td>
+      </tr>
+      <tr>
+        <td><code>reportedBy</code></td>
+        <td>ObjectId → User</td>
+        <td>Bug reporter</td>
+      </tr>
+      <tr>
+        <td><code>assignedTo</code></td>
+        <td>ObjectId → User</td>
+        <td>Assigned developer (nullable)</td>
+      </tr>
+      <tr>
+        <td><code>status</code></td>
+        <td>Enum</td>
+        <td>open, in_progress, in_review, resolved, closed, reopened</td>
+      </tr>
+      <tr>
+        <td><code>priority</code></td>
+        <td>Enum</td>
+        <td>low, medium, high, critical</td>
+      </tr>
+      <tr>
+        <td><code>severity</code></td>
+        <td>Enum</td>
+        <td>minor, major, critical, blocker</td>
+      </tr>
+      <tr>
+        <td><code>labels</code></td>
+        <td>[String]</td>
+        <td>Tags/labels array</td>
+      </tr>
+      <tr>
+        <td><code>dueDate</code></td>
+        <td>Date</td>
+        <td>Optional deadline</td>
+      </tr>
+      <tr>
+        <td><code>sprint</code></td>
+        <td>ObjectId → Sprint</td>
+        <td>Associated sprint</td>
+      </tr>
+      <tr>
+        <td><code>watchers</code></td>
+        <td>[ObjectId → User]</td>
+        <td>Users watching this bug</td>
+      </tr>
+      <tr>
+        <td><code>attachments</code></td>
+        <td>Array of subdocuments</td>
+        <td>Each has filename, originalName, mimetype, size, url, uploadedBy</td>
+      </tr>
+      <tr>
+        <td><code>resolvedAt</code></td>
+        <td>Date</td>
+        <td>Set when status → resolved</td>
+      </tr>
+      <tr>
+        <td><code>closedAt</code></td>
+        <td>Date</td>
+        <td>Set when status → closed</td>
+      </tr>
+    </table>
+    <div class="info-box note">
+      <strong>Indexes:</strong> The Bug model has 5 indexes for performance: <code>{project, status}</code>,
+      <code>{assignedTo}</code>, <code>{watchers}</code>, <code>{sprint}</code>, and a text index on
+      <code>{title, description}</code> for full-text search.
+    </div>
+
+    <h3>5.5 Other Models</h3>
+
+    <h4>Comment</h4>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>bug</code></td>
+        <td>ObjectId → Bug</td>
+        <td>Parent bug</td>
+      </tr>
+      <tr>
+        <td><code>author</code></td>
+        <td>ObjectId → User</td>
+        <td>Comment author</td>
+      </tr>
+      <tr>
+        <td><code>text</code></td>
+        <td>String (required)</td>
+        <td>Comment content</td>
+      </tr>
+      <tr>
+        <td><code>createdAt / updatedAt</code></td>
+        <td>Date</td>
+        <td>Auto-generated timestamps</td>
+      </tr>
+    </table>
+
+    <h4>ActivityLog</h4>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>bug</code></td>
+        <td>ObjectId → Bug</td>
+        <td>Related bug</td>
+      </tr>
+      <tr>
+        <td><code>actor</code></td>
+        <td>ObjectId → User</td>
+        <td>User who performed action</td>
+      </tr>
+      <tr>
+        <td><code>action</code></td>
+        <td>Enum</td>
+        <td>created, status_changed, assigned, unassigned, priority_changed, severity_changed, commented, reopened,
+          closed, updated</td>
+      </tr>
+      <tr>
+        <td><code>fromValue</code></td>
+        <td>String</td>
+        <td>Previous value</td>
+      </tr>
+      <tr>
+        <td><code>toValue</code></td>
+        <td>String</td>
+        <td>New value</td>
+      </tr>
+    </table>
+
+    <h4>Notification</h4>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>recipient</code></td>
+        <td>ObjectId → User</td>
+        <td>Notification target user</td>
+      </tr>
+      <tr>
+        <td><code>type</code></td>
+        <td>Enum</td>
+        <td>bug_assigned, bug_reassigned, bug_status_changed, bug_commented, bug_due_soon, project_member_added,
+          project_member_removed</td>
+      </tr>
+      <tr>
+        <td><code>title</code></td>
+        <td>String</td>
+        <td>Notification headline</td>
+      </tr>
+      <tr>
+        <td><code>message</code></td>
+        <td>String</td>
+        <td>Notification body</td>
+      </tr>
+      <tr>
+        <td><code>bug / project / actor</code></td>
+        <td>ObjectId refs</td>
+        <td>Related entities (populated on read)</td>
+      </tr>
+      <tr>
+        <td><code>isRead</code></td>
+        <td>Boolean</td>
+        <td>Read status, default false</td>
+      </tr>
+    </table>
+
+    <h4>Sprint</h4>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td>String</td>
+        <td>Sprint name (e.g., "Sprint 1")</td>
+      </tr>
+      <tr>
+        <td><code>project</code></td>
+        <td>ObjectId → Project</td>
+        <td>Parent project</td>
+      </tr>
+      <tr>
+        <td><code>startDate / endDate</code></td>
+        <td>Date</td>
+        <td>Sprint date range</td>
+      </tr>
+      <tr>
+        <td><code>status</code></td>
+        <td>Enum</td>
+        <td>planning, active, completed</td>
+      </tr>
+      <tr>
+        <td><code>bugs</code></td>
+        <td>[ObjectId → Bug]</td>
+        <td>Bugs assigned to this sprint</td>
+      </tr>
+      <tr>
+        <td><code>createdBy</code></td>
+        <td>ObjectId → User</td>
+        <td>Creator</td>
+      </tr>
+    </table>
+
+    <!-- ═══════════════════════ 6. AUTHENTICATION ═══════════════════════ -->
+    <h2 id="s6">6. Authentication &amp; Authorization</h2>
+
+    <h3>6.1 Authentication Flow</h3>
+    <div class="flow-diagram" style="text-align: left;">
+      <strong>Login Flow:</strong><br><br>
+      1. User submits email + password on <code>/login</code> page<br>
+      2. <code>POST /api/auth/login</code> → find user by email, compare bcrypt hash<br>
+      3. If valid → generate JWT with <code>{ id: user._id }</code>, expires in 7 days<br>
+      4. Return <code>{ token, user }</code> → stored in <code>localStorage</code> (<code>bt_token</code>,
+      <code>bt_user</code>)<br>
+      5. Axios interceptor attaches <code>Authorization: Bearer &lt;token&gt;</code> to every request<br>
+      6. On page refresh → <code>AuthContext</code> calls <code>GET /api/auth/me</code> to re-validate token<br><br>
+
+      <strong>Registration Flow:</strong><br><br>
+      1. User fills name, email, password, role<br>
+      2. <code>POST /api/auth/register</code> → validates input, hashes password<br>
+      3. <strong>Security:</strong> Public registration CANNOT create admin accounts — role forced to
+      reporter/developer/tester<br>
+      4. Auto-generates <code>avatarInitials</code> from name
+    </div>
+
+    <h3>6.2 Role-Based Access Control (RBAC)</h3>
+    <table>
+      <tr>
+        <th>Permission</th>
+        <th>Admin</th>
+        <th>Developer</th>
+        <th>Tester</th>
+        <th>Reporter</th>
+      </tr>
+      <tr>
+        <td>Create projects</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Edit projects</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Manage project members</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Create bugs</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>Edit bugs</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>Assign/reassign bugs</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Change bug status</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>Delete bugs</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Manage users &amp; roles</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Create/manage sprints</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>❌</td>
+        <td>❌</td>
+      </tr>
+      <tr>
+        <td>Comment on bugs</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+      <tr>
+        <td>Upload attachments</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+        <td>✅</td>
+      </tr>
+    </table>
+
+    <div class="info-box danger">
+      <strong>Server-Side Enforcement:</strong> All permissions are enforced by the <code>authorize()</code> middleware
+      on the backend. Frontend-only button hiding is never sufficient — every protected endpoint validates the user's
+      role from the JWT-decoded user record in the database.
+    </div>
+
+    <h3>6.3 Middleware Pipeline</h3>
+    <pre><code><span class="comment">// middleware/auth.js</span>
+
+<span class="kw">export const</span> <span class="fn">protect</span> = <span class="kw">async</span> (req, res, next) => {
+  <span class="comment">// 1. Extract JWT from Authorization header</span>
+  <span class="comment">// 2. Verify token with jwt.verify()</span>
+  <span class="comment">// 3. Load user from DB (ensures user still exists & is active)</span>
+  <span class="comment">// 4. Attach user to req.user</span>
+};
+
+<span class="kw">export const</span> <span class="fn">authorize</span> = (...roles) => (req, res, next) => {
+  <span class="comment">// Check if req.user.role is in the allowed roles array</span>
+  <span class="comment">// Return 403 if not authorized</span>
+};</code></pre>
+
+    <!-- ═══════════════════════ 7. API ENDPOINTS ═══════════════════════ -->
+    <h2 id="s7">7. API Endpoints Reference</h2>
+
+    <h3>7.1 Authentication (<code>/api/auth</code>)</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Auth</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/auth/register</code></td>
+        <td>Public</td>
+        <td>Register new user (cannot create admin)</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/auth/login</code></td>
+        <td>Public</td>
+        <td>Login, returns JWT + user object</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/auth/me</code></td>
+        <td>Protected</td>
+        <td>Get current user profile</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/auth/users</code></td>
+        <td>Protected</td>
+        <td>List all users (with search/filter)</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/auth/users/:id</code></td>
+        <td>Admin</td>
+        <td>Get user details + project membership</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/auth/users/:id/role</code></td>
+        <td>Admin</td>
+        <td>Update user role</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/auth/users/:id/toggle-active</code></td>
+        <td>Admin</td>
+        <td>Activate/deactivate user</td>
+      </tr>
+    </table>
+
+    <h3>7.2 Projects (<code>/api/projects</code>)</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Auth</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/projects</code></td>
+        <td>Protected</td>
+        <td>List all projects</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/projects</code></td>
+        <td>Admin/Dev</td>
+        <td>Create project (unique key required)</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/projects/:id</code></td>
+        <td>Protected</td>
+        <td>Get project details + populated members</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/projects/:id</code></td>
+        <td>Admin/Dev</td>
+        <td>Update project (name, description, lead, archive)</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/projects/:id/members</code></td>
+        <td>Admin/Dev</td>
+        <td>Add member to project</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/projects/:id/members</code></td>
+        <td>Admin/Dev</td>
+        <td>Remove member from project</td>
+      </tr>
+    </table>
+
+    <h3>7.3 Bugs (<code>/api/bugs</code>)</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Auth</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs</code></td>
+        <td>Protected</td>
+        <td>List bugs with filters, search, pagination</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/bugs</code></td>
+        <td>Protected</td>
+        <td>Create bug (atomic bugId generation)</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs/:id</code></td>
+        <td>Protected</td>
+        <td>Get bug details + activity log</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/bugs/:id</code></td>
+        <td>Protected</td>
+        <td>Update bug fields</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/bugs/:id</code></td>
+        <td>Admin</td>
+        <td>Delete bug + comments + activity logs</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/bugs/:id/status</code></td>
+        <td>Protected</td>
+        <td>Change status (validated by state machine)</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/bugs/:id/assign</code></td>
+        <td>Admin/Dev</td>
+        <td>Assign/reassign/unassign bug</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/bugs/:id/watch</code></td>
+        <td>Protected</td>
+        <td>Toggle watch/unwatch</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/bugs/:id/attachments</code></td>
+        <td>Protected</td>
+        <td>Upload file attachment (multipart)</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/bugs/:id/attachments/:attachmentId</code></td>
+        <td>Protected</td>
+        <td>Remove attachment (owner/admin)</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs/my-bugs</code></td>
+        <td>Protected</td>
+        <td>Bugs assigned to current user</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs/watched</code></td>
+        <td>Protected</td>
+        <td>Bugs user is watching</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs/recently-closed</code></td>
+        <td>Protected</td>
+        <td>Recently closed bugs (last 30 days)</td>
+      </tr>
+    </table>
+
+    <h3>7.4 Comments (<code>/api/bugs/:bugId/comments</code> &amp; <code>/api/comments</code>)</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Auth</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/bugs/:bugId/comments</code></td>
+        <td>Protected</td>
+        <td>Get all comments for a bug</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/bugs/:bugId/comments</code></td>
+        <td>Protected</td>
+        <td>Add comment to bug</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/comments/:id</code></td>
+        <td>Protected</td>
+        <td>Edit own comment</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/comments/:id</code></td>
+        <td>Protected</td>
+        <td>Delete comment (own or admin)</td>
+      </tr>
+    </table>
+
+    <h3>7.5 Notifications, Sprints, Dashboard</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/notifications</code></td>
+        <td>Get notifications for current user</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/notifications/unread-count</code></td>
+        <td>Get unread notification count</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/notifications/:id/read</code></td>
+        <td>Mark notification as read</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/notifications/read-all</code></td>
+        <td>Mark all as read</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/sprints?project=ID</code></td>
+        <td>List sprints for a project</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/sprints</code></td>
+        <td>Create sprint (Admin/Dev)</td>
+      </tr>
+      <tr>
+        <td><code>PATCH</code></td>
+        <td><code>/api/sprints/:id</code></td>
+        <td>Update sprint</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/sprints/:id</code></td>
+        <td>Delete sprint</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/sprints/:id/bugs</code></td>
+        <td>Add bug to sprint</td>
+      </tr>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/api/sprints/:id/bugs</code></td>
+        <td>Remove bug from sprint</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/dashboard</code></td>
+        <td>Dashboard stats &amp; aggregations</td>
+      </tr>
+    </table>
+
+    <!-- ═══════════════════════ 8. BUG LIFECYCLE ═══════════════════════ -->
+    <h2 id="s8">8. Bug Lifecycle &amp; State Machine</h2>
+
+    <h3>8.1 Status States</h3>
+    <div class="flow-diagram">
+      <div style="margin-bottom: 16px; font-weight: 700; font-size: 14px; color: var(--text);">Bug Status Flow</div>
+      <div class="flow-row" style="margin-bottom: 20px;">
+        <div class="flow-box fb-open">Open</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-progress">In Progress</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-review">In Review</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-resolved">Resolved</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box fb-closed">Closed</div>
+      </div>
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+        ↩ <span class="flow-box fb-reopened" style="padding: 4px 10px; font-size: 10px;">Reopened</span> can be
+        triggered from Resolved or Closed
+      </div>
+    </div>
+
+    <h3>8.2 Valid Transitions Table</h3>
+    <table>
+      <tr>
+        <th>From Status</th>
+        <th>Allowed Transitions To</th>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#f0475a;color:white;">Open</span></td>
+        <td>In Progress, Closed</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#f0a02b;color:white;">In Progress</span></td>
+        <td>In Review, Open, Closed</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#4c8dff;color:white;">In Review</span></td>
+        <td>Resolved, In Progress</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#3ecf8e;color:white;">Resolved</span></td>
+        <td>Closed, Reopened</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#6b7385;color:white;">Closed</span></td>
+        <td>Reopened</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#c77dff;color:white;">Reopened</span></td>
+        <td>In Progress, Closed</td>
+      </tr>
+    </table>
+
+    <div class="info-box warn">
+      <strong>Backend Enforcement:</strong> The <code>TRANSITIONS</code> constant in <code>bugController.js</code>
+      strictly defines allowed transitions. Any attempt to make an invalid transition (e.g., Open → Resolved) returns a
+      <code>400 Bad Request</code> with a descriptive error message. The Kanban board's drag-and-drop also validates
+      transitions client-side before making the API call.
+    </div>
+
+    <h3>8.3 State Machine Implementation</h3>
+    <pre><code><span class="kw">const</span> TRANSITIONS = {
+  open:        [<span class="str">"in_progress"</span>, <span class="str">"closed"</span>],
+  in_progress: [<span class="str">"in_review"</span>, <span class="str">"open"</span>, <span class="str">"closed"</span>],
+  in_review:   [<span class="str">"resolved"</span>, <span class="str">"in_progress"</span>],
+  resolved:    [<span class="str">"closed"</span>, <span class="str">"reopened"</span>],
+  closed:      [<span class="str">"reopened"</span>],
+  reopened:    [<span class="str">"in_progress"</span>, <span class="str">"closed"</span>],
+};
+
+<span class="comment">// In changeStatus controller:</span>
+<span class="kw">const</span> allowed = TRANSITIONS[bug.status] || [];
+<span class="kw">if</span> (!allowed.<span class="fn">includes</span>(newStatus)) {
+  <span class="kw">return</span> res.status(<span class="num">400</span>).json({ message: <span class="str">`Cannot move from '${bug.status}' to '${newStatus}'`</span> });
+}</code></pre>
+
+    <!-- ═══════════════════════ 9. FRONTEND PAGES ═══════════════════════ -->
+    <h2 id="s9">9. Frontend Pages &amp; Components</h2>
+
+    <h3>9.1 Page Descriptions</h3>
+    <table>
+      <tr>
+        <th>Page</th>
+        <th>Route</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><strong>Login</strong></td>
+        <td><code>/login</code></td>
+        <td>Email/password login form with validation and error messages</td>
+      </tr>
+      <tr>
+        <td><strong>Register</strong></td>
+        <td><code>/register</code></td>
+        <td>Registration with name, email, password, role selection</td>
+      </tr>
+      <tr>
+        <td><strong>Dashboard</strong></td>
+        <td><code>/</code></td>
+        <td>8 stat cards, 6 charts, recent bugs &amp; activity, project filter</td>
+      </tr>
+      <tr>
+        <td><strong>Projects</strong></td>
+        <td><code>/projects</code></td>
+        <td>Grid of all projects with bug counts and progress</td>
+      </tr>
+      <tr>
+        <td><strong>Project Detail</strong></td>
+        <td><code>/projects/:id</code></td>
+        <td>Project info, member management, archive/restore, links to kanban</td>
+      </tr>
+      <tr>
+        <td><strong>Bug List</strong></td>
+        <td><code>/bugs</code></td>
+        <td>Filterable bug table with search, pagination, create button</td>
+      </tr>
+      <tr>
+        <td><strong>Bug Detail</strong></td>
+        <td><code>/bugs/:id</code></td>
+        <td>Full bug view: edit, status workflow, comments, attachments, activity</td>
+      </tr>
+      <tr>
+        <td><strong>Kanban Board</strong></td>
+        <td><code>/projects/:id/kanban</code></td>
+        <td>6-column drag-and-drop board with transition validation</td>
+      </tr>
+      <tr>
+        <td><strong>Sprint Management</strong></td>
+        <td><code>/projects/:id/sprints</code></td>
+        <td>Sprint CRUD, add/remove bugs, progress tracking</td>
+      </tr>
+      <tr>
+        <td><strong>User Management</strong></td>
+        <td><code>/admin/users</code></td>
+        <td>Admin-only: search, filter, change roles, activate/deactivate</td>
+      </tr>
+      <tr>
+        <td><strong>Assigned to Me</strong></td>
+        <td><code>/workspace/assigned</code></td>
+        <td>Bugs assigned to current user (active only)</td>
+      </tr>
+      <tr>
+        <td><strong>Watching</strong></td>
+        <td><code>/workspace/watching</code></td>
+        <td>Bugs user is watching</td>
+      </tr>
+      <tr>
+        <td><strong>Recently Closed</strong></td>
+        <td><code>/workspace/recently-closed</code></td>
+        <td>Bugs closed in the last 30 days</td>
+      </tr>
+    </table>
+
+    <h3>9.2 Reusable Components</h3>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td><code>Sidebar</code></td>
+        <td>Responsive navigation with project list, workspace links, admin section, mobile hamburger menu, collapsible
+        </td>
+      </tr>
+      <tr>
+        <td><code>NotificationBell</code></td>
+        <td>Bell icon with unread badge, dropdown via React Portal, mark read/all read, auto-refresh every 30s</td>
+      </tr>
+      <tr>
+        <td><code>StatusBadge</code></td>
+        <td>Color-coded pill showing bug status</td>
+      </tr>
+      <tr>
+        <td><code>PriorityBadge / SeverityTag / LabelTag</code></td>
+        <td>Visual badges for priority, severity, and custom labels</td>
+      </tr>
+      <tr>
+        <td><code>StatCard</code></td>
+        <td>Dashboard metric card with icon, eyebrow text, and large value</td>
+      </tr>
+      <tr>
+        <td><code>PrivateRoute</code></td>
+        <td>HOC that redirects unauthenticated users to <code>/login</code></td>
+      </tr>
+      <tr>
+        <td><code>ConfirmDialog</code></td>
+        <td>Modal confirmation dialog for destructive actions (delete bug, delete comment)</td>
+      </tr>
+      <tr>
+        <td><code>CreateBugModal</code></td>
+        <td>Full form modal with project selection, priority, severity, labels, dates</td>
+      </tr>
+      <tr>
+        <td><code>Spinner / EmptyState</code></td>
+        <td>Loading and empty state placeholder components</td>
+      </tr>
+    </table>
+
+    <h3>9.3 State Management</h3>
+    <p>BugTrail uses two React Contexts for global state:</p>
+    <ul>
+      <li><strong>AuthContext</strong> — Manages user authentication state. Stores JWT in <code>localStorage</code>. On
+        mount, calls <code>/api/auth/me</code> to re-validate the token. Provides <code>login()</code>,
+        <code>register()</code>, <code>logout()</code> functions and the <code>user</code> object to all components.
+      </li>
+      <li><strong>ToastContext</strong> — Provides <code>toast.success()</code>, <code>toast.error()</code>,
+        <code>toast.info()</code> for non-intrusive feedback messages. Toast notifications auto-dismiss after a few
+        seconds.</li>
+    </ul>
+
+    <!-- ═══════════════════════ 10. DASHBOARD ═══════════════════════ -->
+    <h2 id="s10">10. Dashboard &amp; Analytics</h2>
+
+    <h3>10.1 Stat Cards (8 total)</h3>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Total Bugs</h4>
+        <p>Count of all bugs in the system</p>
+      </div>
+      <div class="feature-card">
+        <h4>Open Issues</h4>
+        <p>Bugs with status = "open"</p>
+      </div>
+      <div class="feature-card">
+        <h4>Resolved</h4>
+        <p>Bugs with status = "resolved"</p>
+      </div>
+      <div class="feature-card">
+        <h4>Assigned to Me</h4>
+        <p>Active bugs assigned to the logged-in user</p>
+      </div>
+      <div class="feature-card">
+        <h4>In Progress</h4>
+        <p>Bugs currently being worked on</p>
+      </div>
+      <div class="feature-card">
+        <h4>Critical Bugs</h4>
+        <p>Active bugs with priority = "critical"</p>
+      </div>
+      <div class="feature-card">
+        <h4>Overdue</h4>
+        <p>Active bugs past their due date</p>
+      </div>
+      <div class="feature-card">
+        <h4>Projects</h4>
+        <p>Total non-archived projects</p>
+      </div>
+    </div>
+
+    <h3>10.2 Charts (6 total, using Recharts)</h3>
+    <table>
+      <tr>
+        <th>Chart</th>
+        <th>Type</th>
+        <th>Data Source</th>
+      </tr>
+      <tr>
+        <td>Bugs by Status</td>
+        <td>Donut (PieChart)</td>
+        <td>MongoDB aggregation grouping by status</td>
+      </tr>
+      <tr>
+        <td>Bugs by Priority</td>
+        <td>Bar Chart</td>
+        <td>Aggregation grouping by priority</td>
+      </tr>
+      <tr>
+        <td>Bugs by Severity</td>
+        <td>Bar Chart</td>
+        <td>Aggregation grouping by severity</td>
+      </tr>
+      <tr>
+        <td>Bugs Created Over Time</td>
+        <td>Line Chart</td>
+        <td>30-day daily aggregation using <code>$dateToString</code></td>
+      </tr>
+      <tr>
+        <td>Bugs by Project</td>
+        <td>Horizontal Bar</td>
+        <td>Aggregation with <code>$lookup</code> to projects collection</td>
+      </tr>
+      <tr>
+        <td>Active Bugs by Developer</td>
+        <td>Horizontal Bar</td>
+        <td>Aggregation with <code>$lookup</code> to users collection</td>
+      </tr>
+    </table>
+
+    <div class="info-box note">
+      <strong>Project Filter:</strong> A dropdown at the top of the dashboard allows filtering all stats and charts by a
+      specific project. The backend dashboard endpoint accepts an optional <code>?project=ID</code> query parameter.
+    </div>
+
+    <!-- ═══════════════════════ 11. KANBAN ═══════════════════════ -->
+    <h2 id="s11">11. Kanban Board</h2>
+
+    <h3>11.1 Overview</h3>
+    <p>The Kanban board provides a visual representation of all bugs in a project, organized into 6 columns
+      corresponding to the bug lifecycle statuses. Users can drag bugs between columns to change their status.</p>
+
+    <h3>11.2 Columns</h3>
+    <div class="flow-row" style="justify-content: flex-start; gap: 10px; flex-wrap: wrap; margin: 16px 0;">
+      <div class="flow-box fb-open" style="padding: 6px 14px; font-size: 11px;">Open</div>
+      <div class="flow-box fb-progress" style="padding: 6px 14px; font-size: 11px;">In Progress</div>
+      <div class="flow-box fb-review" style="padding: 6px 14px; font-size: 11px;">In Review</div>
+      <div class="flow-box fb-resolved" style="padding: 6px 14px; font-size: 11px;">Resolved</div>
+      <div class="flow-box fb-closed" style="padding: 6px 14px; font-size: 11px;">Closed</div>
+      <div class="flow-box fb-reopened" style="padding: 6px 14px; font-size: 11px;">Reopened</div>
+    </div>
+
+    <h3>11.3 How Drag-and-Drop Works</h3>
+    <ol>
+      <li><strong>Drag Start:</strong> HTML5 Drag API — <code>draggable</code> attribute + <code>onDragStart</code>
+        event stores the bug object</li>
+      <li><strong>Visual Feedback:</strong>
+        <ul>
+          <li><span style="color:var(--primary);">Blue dashed border</span> = valid drop target (allowed transition)
+          </li>
+          <li><span style="color:var(--accent-red);">Red dashed border</span> = invalid drop target (transition not
+            allowed)</li>
+        </ul>
+      </li>
+      <li><strong>Client-side Validation:</strong> Before API call, checks the <code>TRANSITIONS</code> map</li>
+      <li><strong>API Call:</strong> <code>PATCH /api/bugs/:id/status</code> with new status</li>
+      <li><strong>Server Validation:</strong> Backend re-validates the transition (never trust client)</li>
+      <li><strong>Board Refresh:</strong> On success, reloads all bugs from API</li>
+      <li><strong>Error Handling:</strong> On failure, shows toast error and reverts visually</li>
+    </ol>
+
+    <h3>11.4 Bug Card Information</h3>
+    <p>Each card on the board displays: Bug ID (e.g., APP-3), title, priority badge, severity tag, and assigned
+      developer avatar.</p>
+
+    <!-- ═══════════════════════ 12. ATTACHMENTS ═══════════════════════ -->
+    <h2 id="s12">12. File Attachments</h2>
+
+    <h3>12.1 Upload Pipeline</h3>
+    <div class="flow-diagram" style="text-align: left;">
+      1. User clicks "Upload File" on Bug Detail page → hidden <code>&lt;input type="file"&gt;</code> opens<br>
+      2. File is sent as <code>multipart/form-data</code> to <code>POST /api/bugs/:id/attachments</code><br>
+      3. <strong>Multer middleware</strong> processes the upload:<br>
+      &nbsp;&nbsp;&nbsp;a. <strong>File filter:</strong> Validates MIME type against allowlist<br>
+      &nbsp;&nbsp;&nbsp;b. <strong>Size limit:</strong> Max 5 MB (configurable via <code>MAX_FILE_SIZE</code> env
+      var)<br>
+      &nbsp;&nbsp;&nbsp;c. <strong>Storage:</strong> Saved to <code>uploads/</code> with UUID filename to prevent
+      collisions<br>
+      4. Attachment metadata (filename, original name, MIME type, size, URL, uploader) is pushed to the bug's
+      <code>attachments</code> subdocument array<br>
+      5. Files are served statically via <code>express.static('/uploads')</code>
+    </div>
+
+    <h3>12.2 Allowed File Types</h3>
+    <p>Images (JPEG, PNG, GIF, WebP, SVG), Documents (PDF, Word, Excel), Data (JSON, CSV, TXT), Archives (ZIP), Video
+      (MP4, WebM)</p>
+
+    <h3>12.3 Security</h3>
+    <ul>
+      <li>Only the uploader or an admin can remove an attachment</li>
+      <li>File is deleted from disk when removed from the bug</li>
+      <li>Binary files are NOT stored in MongoDB — only metadata references</li>
+      <li>Helmet's <code>crossOriginResourcePolicy</code> is set to "cross-origin" for file serving</li>
+    </ul>
+
+    <!-- ═══════════════════════ 13. NOTIFICATIONS ═══════════════════════ -->
+    <h2 id="s13">13. Notification System</h2>
+
+    <h3>13.1 Notification Triggers</h3>
+    <table>
+      <tr>
+        <th>Event</th>
+        <th>Notification Type</th>
+        <th>Recipients</th>
+      </tr>
+      <tr>
+        <td>Bug assigned</td>
+        <td><code>bug_assigned</code></td>
+        <td>Assignee</td>
+      </tr>
+      <tr>
+        <td>Bug reassigned</td>
+        <td><code>bug_reassigned</code></td>
+        <td>New assignee</td>
+      </tr>
+      <tr>
+        <td>Status changed</td>
+        <td><code>bug_status_changed</code></td>
+        <td>Watchers + assignee + reporter</td>
+      </tr>
+      <tr>
+        <td>Comment added</td>
+        <td><code>bug_commented</code></td>
+        <td>Watchers + assignee + reporter</td>
+      </tr>
+      <tr>
+        <td>Due date approaching</td>
+        <td><code>bug_due_soon</code></td>
+        <td>Assignee</td>
+      </tr>
+      <tr>
+        <td>Added to project</td>
+        <td><code>project_member_added</code></td>
+        <td>New member</td>
+      </tr>
+      <tr>
+        <td>Removed from project</td>
+        <td><code>project_member_removed</code></td>
+        <td>Removed member</td>
+      </tr>
+    </table>
+
+    <div class="info-box success">
+      <strong>Smart Deduplication:</strong> The <code>notifyUsers()</code> helper deduplicates recipients and filters
+      out the actor (you don't get notified about your own actions). Notification failures are caught silently — they
+      never break the main operation.
+    </div>
+
+    <h3>13.2 Frontend Implementation</h3>
+    <ul>
+      <li><strong>Bell Icon:</strong> Shows red badge with unread count</li>
+      <li><strong>Dropdown:</strong> Rendered via React Portal (outside sidebar DOM) for proper positioning</li>
+      <li><strong>Auto-refresh:</strong> Polls unread count every 30 seconds</li>
+      <li><strong>Mark as read:</strong> Individual or "mark all read" button</li>
+      <li><strong>Navigation:</strong> Clicking a notification links to the related bug detail page</li>
+    </ul>
+
+    <!-- ═══════════════════════ 14. SPRINTS ═══════════════════════ -->
+    <h2 id="s14">14. Sprint Management</h2>
+
+    <h3>14.1 Sprint Lifecycle</h3>
+    <div class="flow-diagram">
+      <div class="flow-row">
+        <div class="flow-box" style="background:#4c8dff;">📋 Planning</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="background:#f0a02b;">🏃 Active</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box" style="background:#3ecf8e;">✅ Completed</div>
+      </div>
+    </div>
+
+    <h3>14.2 Features</h3>
+    <ul>
+      <li>Create sprints with name, description, start date, and end date</li>
+      <li>Update sprint status (planning → active → completed)</li>
+      <li>Add bugs from the project to a sprint</li>
+      <li>Remove bugs from a sprint</li>
+      <li>View sprint progress (percentage of resolved/closed bugs)</li>
+      <li>Delete sprints (Admin/Developer only)</li>
+    </ul>
+
+    <!-- ═══════════════════════ 15. ACTIVITY LOG ═══════════════════════ -->
+    <h2 id="s15">15. Activity Log &amp; Audit Trail</h2>
+
+    <h3>15.1 Tracked Actions</h3>
+    <table>
+      <tr>
+        <th>Action</th>
+        <th>fromValue</th>
+        <th>toValue</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td><code>created</code></td>
+        <td>—</td>
+        <td>open</td>
+        <td>"John created this bug"</td>
+      </tr>
+      <tr>
+        <td><code>status_changed</code></td>
+        <td>open</td>
+        <td>in_progress</td>
+        <td>"Jane changed status from open to in_progress"</td>
+      </tr>
+      <tr>
+        <td><code>assigned</code></td>
+        <td>—</td>
+        <td>userId</td>
+        <td>"Admin assigned this bug"</td>
+      </tr>
+      <tr>
+        <td><code>unassigned</code></td>
+        <td>userId</td>
+        <td>—</td>
+        <td>"Admin unassigned this bug"</td>
+      </tr>
+      <tr>
+        <td><code>priority_changed</code></td>
+        <td>medium</td>
+        <td>critical</td>
+        <td>"Jane changed priority from medium to critical"</td>
+      </tr>
+      <tr>
+        <td><code>severity_changed</code></td>
+        <td>minor</td>
+        <td>blocker</td>
+        <td>"Jane changed severity from minor to blocker"</td>
+      </tr>
+      <tr>
+        <td><code>commented</code></td>
+        <td>—</td>
+        <td>—</td>
+        <td>"John commented"</td>
+      </tr>
+      <tr>
+        <td><code>reopened</code></td>
+        <td>closed</td>
+        <td>reopened</td>
+        <td>"Admin reopened this bug"</td>
+      </tr>
+      <tr>
+        <td><code>closed</code></td>
+        <td>resolved</td>
+        <td>closed</td>
+        <td>"Admin closed this bug"</td>
+      </tr>
+      <tr>
+        <td><code>updated</code></td>
+        <td>—</td>
+        <td>—</td>
+        <td>"John updated bug details"</td>
+      </tr>
+    </table>
+
+    <div class="info-box note">
+      <strong>Display:</strong> The Bug Detail page shows a chronological activity timeline on the right sidebar, with
+      actor name, action description, and relative timestamp ("3 hours ago"). Activity logs are read-only — they cannot
+      be edited or deleted by ordinary users.
+    </div>
+
+    <!-- ═══════════════════════ 16. SECURITY ═══════════════════════ -->
+    <h2 id="s16">16. Security Measures</h2>
+
+    <table>
+      <tr>
+        <th>Measure</th>
+        <th>Implementation</th>
+      </tr>
+      <tr>
+        <td><strong>Password Hashing</strong></td>
+        <td>bcryptjs with 10 salt rounds. Passwords are never stored in plaintext.</td>
+      </tr>
+      <tr>
+        <td><strong>JWT Authentication</strong></td>
+        <td>Stateless tokens with configurable expiry (default 7 days). Secret stored in <code>JWT_SECRET</code> env
+          var.</td>
+      </tr>
+      <tr>
+        <td><strong>Password Hidden</strong></td>
+        <td><code>select: false</code> on User schema — password never returned in API responses.</td>
+      </tr>
+      <tr>
+        <td><strong>Rate Limiting</strong></td>
+        <td>20 requests per 15 minutes on <code>/api/auth/login</code> and <code>/api/auth/register</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Helmet</strong></td>
+        <td>Sets Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, and other security headers.</td>
+      </tr>
+      <tr>
+        <td><strong>CORS</strong></td>
+        <td>Configurable origin via <code>CLIENT_URL</code> env var. Defaults to <code>*</code> in development.</td>
+      </tr>
+      <tr>
+        <td><strong>Input Validation</strong></td>
+        <td>Every controller validates required fields, ObjectId format, enum values before database operations.</td>
+      </tr>
+      <tr>
+        <td><strong>Role Authorization</strong></td>
+        <td>Server-side <code>authorize()</code> middleware checks user role on every protected endpoint.</td>
+      </tr>
+      <tr>
+        <td><strong>Admin Protection</strong></td>
+        <td>Cannot remove the last admin. Cannot deactivate your own account. Public registration cannot create admins.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>File Upload Security</strong></td>
+        <td>MIME type allowlist, file size limit, UUID filenames to prevent path traversal.</td>
+      </tr>
+      <tr>
+        <td><strong>Account Deactivation</strong></td>
+        <td>Deactivated users cannot login. Auth middleware checks <code>isActive</code> on every request.</td>
+      </tr>
+      <tr>
+        <td><strong>Payload Limits</strong></td>
+        <td><code>express.json({ limit: "10mb" })</code> prevents oversized request bodies.</td>
+      </tr>
+    </table>
+
+    <!-- ═══════════════════════ 17. SETUP GUIDE ═══════════════════════ -->
+    <h2 id="s17">17. Setup &amp; Installation Guide</h2>
+
+    <h3>17.1 Prerequisites</h3>
+    <ul>
+      <li>Node.js v18 or higher</li>
+      <li>npm v9 or higher</li>
+      <li>MongoDB (local installation or MongoDB Atlas cloud)</li>
+      <li>Git</li>
+    </ul>
+
+    <h3>17.2 Installation Steps</h3>
+    <pre><code><span class="comment"># 1. Clone the repository</span>
+git clone https://github.com/your-username/bug-tracker.git
+cd bug-tracker
+
+<span class="comment"># 2. Install backend dependencies</span>
+cd backend
+npm install
+
+<span class="comment"># 3. Configure environment variables</span>
+copy .env.example .env
+<span class="comment"># Edit .env with your MongoDB URI and JWT secret</span>
+
+<span class="comment"># 4. Seed the database with sample data</span>
+npm run seed
+
+<span class="comment"># 5. Start the backend server</span>
+npm run dev
+<span class="comment"># Server runs on http://localhost:5000</span>
+
+<span class="comment"># 6. Open a new terminal — install frontend dependencies</span>
+cd frontend
+npm install
+
+<span class="comment"># 7. Start the frontend dev server</span>
+npm run dev
+<span class="comment"># Frontend runs on http://localhost:5173</span></code></pre>
+
+    <h3>17.3 Default Seed Data Credentials</h3>
+    <table>
+      <tr>
+        <th>Role</th>
+        <th>Email</th>
+        <th>Password</th>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td><code>admin@bugtracker.dev</code></td>
+        <td><code>password123</code></td>
+      </tr>
+      <tr>
+        <td>Developer</td>
+        <td><code>aditi@bugtracker.dev</code></td>
+        <td><code>password123</code></td>
+      </tr>
+      <tr>
+        <td>Developer</td>
+        <td><code>rohan@bugtracker.dev</code></td>
+        <td><code>password123</code></td>
+      </tr>
+      <tr>
+        <td>Tester</td>
+        <td><code>kavya@bugtracker.dev</code></td>
+        <td><code>password123</code></td>
+      </tr>
+      <tr>
+        <td>Reporter</td>
+        <td><code>sam@bugtracker.dev</code></td>
+        <td><code>password123</code></td>
+      </tr>
+    </table>
+
+    <!-- ═══════════════════════ 18. ENVIRONMENT VARIABLES ═══════════════════════ -->
+    <h2 id="s18">18. Environment Variables</h2>
+
+    <table>
+      <tr>
+        <th>Variable</th>
+        <th>Required</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>MONGO_URI</code></td>
+        <td>✅</td>
+        <td>—</td>
+        <td>MongoDB connection string</td>
+      </tr>
+      <tr>
+        <td><code>JWT_SECRET</code></td>
+        <td>✅</td>
+        <td>—</td>
+        <td>Secret key for JWT signing</td>
+      </tr>
+      <tr>
+        <td><code>JWT_EXPIRES_IN</code></td>
+        <td>❌</td>
+        <td><code>7d</code></td>
+        <td>JWT token expiry duration</td>
+      </tr>
+      <tr>
+        <td><code>PORT</code></td>
+        <td>❌</td>
+        <td><code>5000</code></td>
+        <td>Backend server port</td>
+      </tr>
+      <tr>
+        <td><code>CLIENT_URL</code></td>
+        <td>❌</td>
+        <td><code>*</code></td>
+        <td>Allowed CORS origin</td>
+      </tr>
+      <tr>
+        <td><code>UPLOAD_DIR</code></td>
+        <td>❌</td>
+        <td><code>uploads</code></td>
+        <td>File upload directory</td>
+      </tr>
+      <tr>
+        <td><code>MAX_FILE_SIZE</code></td>
+        <td>❌</td>
+        <td><code>5242880</code></td>
+        <td>Max upload size in bytes (5 MB)</td>
+      </tr>
+      <tr>
+        <td><code>NODE_ENV</code></td>
+        <td>❌</td>
+        <td><code>development</code></td>
+        <td>Environment mode</td>
+      </tr>
+    </table>
+
+    <!-- ═══════════════════════ 19. DATA FLOW ═══════════════════════ -->
+    <h2 id="s19">19. Data Flow Diagrams</h2>
+
+    <h3>19.1 Bug Creation Flow</h3>
+    <div class="flow-diagram" style="text-align: left; line-height: 2;">
+      <strong>User fills Create Bug form</strong><br>
+      → <code>POST /api/bugs</code> with title, description, project, priority, severity, labels, dueDate<br>
+      → <code>protect</code> middleware verifies JWT → <code>req.user</code> set<br>
+      → Controller: <code>Project.findByIdAndUpdate($inc: { bugSequence: 1 })</code> (atomic)<br>
+      → Generate <code>bugId</code> = <code>PROJECT_KEY-SEQUENCE</code> (e.g., "APP-7")<br>
+      → <code>Bug.create()</code> with all fields, reporter = <code>req.user._id</code>, auto-watch reporter<br>
+      → <code>ActivityLog.create()</code> with action = "created"<br>
+      → If <code>assignedTo</code> provided → <code>Notification.insertMany()</code> to assignee<br>
+      → Return populated bug object to frontend<br>
+      → Frontend updates bug list / redirects to bug detail
+    </div>
+
+    <h3>19.2 Status Change Flow</h3>
+    <div class="flow-diagram" style="text-align: left; line-height: 2;">
+      <strong>User clicks status button or drags on Kanban</strong><br>
+      → <code>PATCH /api/bugs/:id/status</code> with <code>{ status: "in_progress" }</code><br>
+      → <code>protect</code> middleware verifies JWT<br>
+      → Controller: Load bug from DB, check <code>TRANSITIONS[bug.status]</code><br>
+      → If invalid → return <code>400</code> with descriptive error<br>
+      → If valid → update <code>bug.status</code>, set <code>resolvedAt</code>/<code>closedAt</code> if applicable<br>
+      → <code>bug.save()</code><br>
+      → <code>ActivityLog.create()</code> with fromValue and toValue<br>
+      → <code>Notification.insertMany()</code> to watchers + assignee + reporter (minus actor)<br>
+      → Return updated bug<br>
+      → Frontend refreshes bug detail / Kanban board
+    </div>
+
+    <h3>19.3 Authentication Flow</h3>
+    <div class="flow-diagram" style="text-align: left; line-height: 2;">
+      <strong>Login:</strong> Submit email + password → <code>POST /api/auth/login</code><br>
+      → Find user by email → <code>bcrypt.compare()</code> password hash<br>
+      → If valid + active → <code>jwt.sign({ id })</code> → return <code>{ token, user }</code><br>
+      → Frontend stores in <code>localStorage</code>: <code>bt_token</code>, <code>bt_user</code><br>
+      → <code>AuthContext</code> sets <code>user</code> state → app renders authenticated UI<br><br>
+
+      <strong>Subsequent Requests:</strong> Axios interceptor reads <code>bt_token</code><br>
+      → Adds <code>Authorization: Bearer &lt;token&gt;</code> header<br>
+      → Vite proxy forwards <code>/api/*</code> to Express<br>
+      → <code>protect</code> middleware decodes + verifies JWT → loads user from DB<br><br>
+
+      <strong>Page Refresh:</strong> <code>AuthContext.useEffect</code> → <code>GET /api/auth/me</code><br>
+      → Validates token still valid + user still active<br>
+      → If invalid → clears localStorage → redirect to login
+    </div>
+
+    <!-- ═══════════════════════ 20. TEAM ═══════════════════════ -->
+    <h2 id="s20">20. Team Contributions</h2>
+
+    <table>
+      <tr>
+        <th>Team Member</th>
+        <th>Role</th>
+        <th>Contributions</th>
+      </tr>
+      <tr>
+        <td><strong>Payal</strong></td>
+        <td>Full-Stack Developer</td>
+        <td>Project architecture, backend API design, database models, authentication system, bug lifecycle state
+          machine, dashboard analytics, frontend integration</td>
+      </tr>
+      <tr>
+        <td><strong>Meghana</strong></td>
+        <td>Frontend &amp; UI/UX</td>
+        <td>UI design system, Tailwind CSS theming, responsive layouts, Kanban board interface, component library, dark
+          theme, user experience</td>
+      </tr>
+      <tr>
+        <td><strong>Harika</strong></td>
+        <td>Testing &amp; Documentation</td>
+        <td>Test case design, integration testing, bug verification, project documentation, user manual, quality
+          assurance</td>
+      </tr>
+      <tr>
+        <td><strong>Gungun</strong></td>
+        <td>Backend Developer</td>
+        <td>API endpoint implementation, middleware configuration, notification system, sprint management, file upload
+          handling</td>
+      </tr>
+      <tr>
+        <td><strong>Tammineni</strong></td>
+        <td>Database &amp; DevOps</td>
+        <td>MongoDB schema design, data seeding, aggregation pipelines, deployment configuration, environment setup</td>
+      </tr>
+    </table>
+
+    <hr class="divider">
+
+    <div class="page-footer">
+      <strong>BugTrail</strong> — Bug Tracking &amp; Resolution System<br>
+      MERN Stack (MongoDB · Express.js · React 18 · Node.js)<br>
+      Version 1.0.0 · November 2026<br><br>
+      <em>This document was generated for project demonstration and academic purposes.</em>
+    </div>
+
+  </div>
+</body>
+
+</html>
